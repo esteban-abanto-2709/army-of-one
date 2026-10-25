@@ -1,59 +1,66 @@
-# Reglas del agente — el bloque que escribe `init`
+# Agent rules — the block `init` writes
 
-Las reglas del día a día (registrar deuda, ciclo de tarea, códigos) tienen que
-valer en **todas** las sesiones, aunque el skill no esté cargado. Por eso `init`
-copia este bloque al archivo de instrucciones que el agente lee siempre (ver
-`init.md`, paso 5).
+The day-to-day rules (recording debt, task lifecycle, codes) must apply in
+**every** session, even when the skill isn't loaded. That's why `init` copies
+this block into the instructions file the agent always reads (see `init.md`,
+step 6).
 
-Se copia **tal cual**, marcas incluidas. Todo lo que está entre
-`<!-- logbook:start` y `<!-- logbook:end -->` es del skill: al volver a correr
-`init` se reemplaza entero.
+Copy it **as is**, markers included, filling in `<language>` with the document
+language. Everything between `<!-- logbook:start` and `<!-- logbook:end -->`
+belongs to the skill: running `init` again replaces it whole (keeping the
+language line).
 
 ~~~markdown
-<!-- logbook:start — lo escribe el skill logbook (init); se reemplaza entero al volver a correrlo -->
+<!-- logbook:start — written by the logbook skill (init); replaced whole when it runs again -->
 ## Logbook (`docs/logbook/`)
 
-Cada proyecto registra su trabajo en cuatro archivos versionados en git dentro
-de `docs/logbook/`. `docs/` arriba queda para material conceptual (visión,
-definición); el registro operativo vive bajo `docs/logbook/`.
+Logbook language: <language>
 
-| Archivo | Prefijo | Qué guarda |
+Every project records its work in four git-versioned files under
+`docs/logbook/`. `docs/` itself stays for conceptual material (vision,
+definition); the operational record lives under `docs/logbook/`.
+
+| File | Prefix | Holds |
 |---|---|---|
-| `technical-debt.md` | `TD-###` | Algo que está **mal ahora** en el código existente. |
-| `roadmap.md` | `RM-###` | Trabajo **comprometido**, se va a hacer. |
-| `wishlist.md` | `WL-###` | Ideas, **quizá nunca**. |
-| `changelog.md` | — | Registro **permanente** de todo lo terminado. |
+| `technical-debt.md` | `TD-###` | Something **wrong now** in existing code. |
+| `roadmap.md` | `RM-###` | **Committed** work that will be done. |
+| `wishlist.md` | `WL-###` | Ideas, **maybe never**. |
+| `changelog.md` | — | **Permanent** record of everything finished. |
 
-**Reglas pasivas (siempre activas, sin comando):**
+**Passive rules (always on, no command):**
 
-- **Deuda técnica:** si la notas mientras trabajas, regístrala en
-  `technical-debt.md` (nunca como comentario en el código). Formato de entrada:
+- **Language:** logbook entries are written in the logbook language above; the
+  conversation stays in the user's language. If the existing files are in
+  another language, keep theirs (never mix) and mention that `init` can
+  translate them.
+- **Technical debt:** if you notice it while working, record it in
+  `technical-debt.md` (never as a code comment). Entry format:
 
   ```markdown
-  ## [TD-001] Título corto
-  - **Ubicación:** `ruta/al/archivo.ext:línea`
-  - **Riesgo:** N/10  (1-3 cosmético · 4-6 ralentiza/moderado · 7-9 bug latente o seguridad · 10 crítico)
-  - **Problema:** qué está mal, sintetizado.
-  - **Impacto futuro:** qué puede causar si no se atiende.
-  - **Fecha:** YYYY-MM-DD · **Estado:** Abierto
+  ## [TD-001] Short title
+  - **Location:** `path/to/file.ext:line`
+  - **Risk:** N/10  (1-3 cosmetic · 4-6 slows down/moderate · 7-9 latent bug or security · 10 critical)
+  - **Problem:** what's wrong, condensed.
+  - **Future impact:** what it can cause if left alone.
+  - **Date:** YYYY-MM-DD · **Status:** Open
   ```
 
-- **Ciclo de tarea:** al **empezar** una tarea (`RM`, `TD` o `WL`) márcala
-  `En progreso (YYYY-MM-DD)` en su bandeja; al **terminar**, muévela al
-  `changelog.md` conservando su prefijo y bórrala de la bandeja. Formato del
-  changelog (orden inverso): `## [CÓDIGO] Título (YYYY-MM-DD HH:MM)` + resumen
-  en ≤2 líneas. **La fecha/hora es el reloj local al terminar; nunca se consulta
-  git para obtenerla.**
-- **Códigos:** nunca se reutilizan; el siguiente = el mayor usado +1 mirando
-  bandeja + changelog. Ejecutar una tarea no cambia su código: un `WL` se
-  trabaja directo y entra al changelog como `WL`. Promover `WL → RM` es solo
-  una decisión de prioridad que pide el usuario, nunca un paso previo.
-- **Archivos bajo demanda:** no crees archivos vacíos; cada uno nace la primera
-  vez que hay algo real que poner.
+- **Task lifecycle:** when **starting** a task (`RM`, `TD` or `WL`) mark it
+  `In progress (YYYY-MM-DD)` in its file; when **finishing**, move it to
+  `changelog.md` keeping its prefix and delete it from its file. Changelog
+  format (reverse order): `## [CODE] Title (YYYY-MM-DD HH:MM)` + summary in ≤2
+  lines. **The date/time is the local clock at finish; never query git for
+  it.**
+- **Codes:** never reused; the next one = highest used +1 looking at the open
+  file + changelog. Executing a task doesn't change its code: a `WL` is worked
+  on directly and goes into the changelog as `WL`. Promoting `WL → RM` is only
+  a priority decision the user asks for, never a prior step.
+- **Files on demand:** don't create empty files; each one is born the first
+  time there is something real to put in it.
 
-**Mecánica pesada → skill `logbook`:** para montar o migrar el sistema (`init`),
-recomendar una tarea (`next`) o auditar deuda (`audit`), usa el skill. Ahí viven
-los formatos completos, los casos especiales (promoción WL→RM, wontfix) y los
-procedimientos.
+**Heavy mechanics → `logbook` skill:** to set up or migrate the system
+(`init`), recommend a task (`next`) or audit debt (`audit`), use the skill. It
+holds the full formats, special cases (WL→RM promotion, wontfix) and
+procedures.
 <!-- logbook:end -->
 ~~~

@@ -1,43 +1,47 @@
-# /logbook next — recomendar una tarea
+# next — recommend a task
 
-Objetivo: romper la inercia. El usuario sabe que tiene que avanzar pero no sabe
-por dónde empezar y termina sin hacer nada. Dale **un primer empuje concreto**,
-no un volcado de todo el backlog.
+Goal: break the inertia. The user knows they need to move forward but doesn't
+know where to start, and ends up doing nothing. Give them **one concrete first
+push**, not a dump of the whole backlog.
 
-## Reglas
+## Rules
 
-- **Solo lee el logbook** (`roadmap.md`, `technical-debt.md`, `wishlist.md`) y,
-  si hace falta para juzgar esfuerzo, echa un vistazo barato al código. **No
-  consultes git.**
-- Si pasan contexto extra (`/logbook next deuda`, `/logbook next rápido`),
-  sesga la recomendación hacia eso.
-- Si no hay nada en ninguna bandeja, dilo y ofrece correr `/logbook audit` o
-  capturar ideas en la wishlist.
+- **Only read the logbook** (`roadmap.md`, `technical-debt.md`, `wishlist.md`)
+  and, if needed to judge effort, take a cheap look at the code. **Don't query
+  git.**
+- If extra context is given (`next debt`, `next quick`), lean the
+  recommendation toward it.
+- If every file is empty, say so and offer to run `audit` or to capture ideas
+  in the wishlist.
 
-## Cómo elegir
+## How to choose
 
-El sesgo es **arrancar**, no "lo más importante" (que suele ser lo más grande y
-abrumador). Pondera:
+The bias is **getting started**, not "the most important thing" (which is
+usually the biggest and most overwhelming). Weigh:
 
-- **Esfuerzo bajo** para entrar en flow (quick-win) — peso alto.
-- **Riesgo** alto en `TD` (7-10) — súbelo aunque no sea quick-win, pero avísalo.
-- Trabajo `RM` ya marcado `En progreso` — retomarlo gana, evita dejar cosas a
-  medias.
-- Dependencias obvias (no recomiendes algo bloqueado por otra tarea sin hacer).
+- **Low effort** to get into flow (quick win) — high weight.
+- High **risk** in `TD` (7-10) — push it up even if it isn't a quick win, but
+  say so.
+- Work already marked `In progress` — resuming it wins, it avoids leaving
+  things half done.
+- The roadmap order (top = higher priority).
+- Obvious dependencies (don't recommend something blocked by an unfinished
+  task).
 
-## Salida
+## Output
 
-Presenta **1 recomendación principal + 2 alternativas**, cada una con una línea
-de porqué:
+Answer in the language the user is speaking. Give **1 main recommendation + 2
+alternatives**, each with a one-line reason:
 
 ```
-🎯 Empieza por: [RM-003] Tracking inteligente en vivo
-   Por qué: arranca el corazón de v1.5 y ya tienes el modelo de datos listo.
+Start with: [RM-003] Live smart tracking
+  Why: it kicks off the core of v1.5 and the data model is already in place.
 
-Alternativas:
-   ⚡ Rápida   — [TD-006] Mostrar errores de red en los hooks (~30 min, quita fricción real).
-   🏗️ De fondo — [TD-005] Auth básica antes de exponer por el tunnel (riesgo 6/10).
+Alternatives:
+  Quick  — [TD-006] Show network errors in the hooks (~30 min, removes real friction).
+  Deeper — [TD-005] Basic auth before exposing it through the tunnel (risk 6/10).
 ```
 
-Cierra ofreciendo **marcar la elegida como `En progreso (YYYY-MM-DD)`** en su
-bandeja (el marcador WIP del ciclo de tarea). No la marques sin confirmación.
+Close by offering to **mark the chosen one `In progress (YYYY-MM-DD)`** in its
+file (the WIP marker from the task lifecycle). Don't mark it without
+confirmation.

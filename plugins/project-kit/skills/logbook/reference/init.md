@@ -1,112 +1,132 @@
-# /logbook init — montar o migrar el sistema
+# init — set up or migrate the system
 
-Objetivo: dejar `docs/logbook/` montado y absorber en él **cualquier** artefacto
-de seguimiento que ya exista en el proyecto, venga con el nombre que venga. No es
-una lista cerrada de casos especiales: el flujo es
-**descubrir → clasificar → confirmar → migrar**. Idempotente: si ya está todo en
-`docs/logbook/` y al día, no rompas nada.
+Goal: leave `docs/logbook/` in place and absorb into it **any** tracking
+artifact that already exists in the project, whatever it's called. It isn't a
+closed list of special cases: the flow is
+**discover → classify → confirm → migrate**. Idempotent: if everything is
+already in `docs/logbook/` and up to date, don't break anything.
 
-Primero: ¿es repo git? Si no, avísalo (ofrece `git init`) — el respaldo de lo que
-se borra depende de git.
+First: is it a git repo? If not, say so (offer `git init`) — the backup for
+everything that gets deleted depends on git.
 
-## 1. Descubrir candidatos
+## 1. Discover candidates
 
-Barre el repo (sin `node_modules`, `dist`, `.next`, build) buscando documentos
-que **sean** seguimiento de trabajo, por nombre **y** por contenido. Los nombres
-de abajo son pistas, NO una lista exhaustiva — generaliza a variantes, plurales,
-mayúsculas e idiomas:
+Sweep the repo (skipping `node_modules`, `dist`, `.next`, build) for documents
+that **are** work tracking, by name **and** by content. The names below are
+hints, NOT an exhaustive list — generalize to variants, plurals, casing and
+languages:
 
-- Por hacer / ideas: `roadmap`, `todo`, `todos`, `tasks`, `backlog`, `wishlist`,
+- To do / ideas: `roadmap`, `todo`, `todos`, `tasks`, `backlog`, `wishlist`,
   `ideas`, `pending`, `notes`…
-- Deuda / problemas: `technical-debt`, `tech-debt`, `debt`, `issues`, `fixme`…
-- Terminado: `changelog`, `history`, `releases`, `done`…
-- Versión anterior de este sistema: una carpeta `docs/tracking/` (ya viene casi
-  en formato → caso fácil, solo renombrar y normalizar).
+- Debt / problems: `technical-debt`, `tech-debt`, `debt`, `issues`, `fixme`…
+- Done: `changelog`, `history`, `releases`, `done`…
+- Previous version of this system: a `docs/tracking/` folder (already almost in
+  format → easy case, just rename and normalize).
 
-Cuenta también el **contenido**: un `.md` que en el fondo es una lista de
-tareas/ideas/cosas hechas es candidato aunque su nombre no encaje. Marca para
-preguntar cualquier archivo donde dudes entre "seguimiento" y "conceptual".
+**Content** counts too: a `.md` that is really a list of tasks/ideas/done items
+is a candidate even if its name doesn't fit. Flag for asking any file where
+you're unsure between "tracking" and "conceptual".
 
-## 2. Clasificar
+## 2. Classify
 
-Mapea cada candidato — o **cada sección dentro de un archivo**, porque uno solo
-puede partirse en varios buckets — a uno de los cuatro:
+Map each candidate — or **each section within a file**, because one file can
+split into several buckets — to one of the four:
 
-| Contenido | Destino |
+| Content | Destination |
 |---|---|
-| Algo mal **ahora** en el código | `technical-debt.md` (`TD`) |
-| Trabajo **comprometido** | `roadmap.md` (`RM`) |
-| Idea **sin compromiso** | `wishlist.md` (`WL`) |
-| Ya **terminado** | `changelog.md` |
+| Something wrong **now** in the code | `technical-debt.md` (`TD`) |
+| **Committed** work | `roadmap.md` (`RM`) |
+| Idea **with no commitment** | `wishlist.md` (`WL`) |
+| Already **finished** | `changelog.md` |
 
-Material **conceptual** (visión de producto, hitos v1/v2/v3 en prosa) NO es
-seguimiento → queda en `docs/` (p. ej. `docs/product-vision.md`). Si tiene
-trabajo comprometido embebido, extrae esas piezas como `RM` y deja un puntero
-cruzado.
+**Conceptual** material (product vision, v1/v2/v3 milestones in prose) is NOT
+tracking → it stays in `docs/` (e.g. `docs/product-vision.md`). If it has
+committed work embedded, extract those pieces as `RM` and leave a cross
+pointer.
 
-## 3. Proponer plan y confirmar
+## 3. Language
 
-La clasificación es difusa, así que **no muevas nada todavía**. Muéstrale al
-usuario el plan: qué archivo/sección va a qué bucket, qué se queda como
-conceptual, qué códigos se asignarían y en qué archivo irán las reglas del
-agente (paso 5). Deja que corrija y migra solo tras su OK.
-(Excepción: el rename mecánico de `docs/tracking/` puedes hacerlo directo,
-avisando.)
+Resolve the document language as `spec.md` says.
 
-## 4. Migrar
+- **Nothing configured and no existing logbook:** ask the user which language
+  the logbook should be written in. The answer goes into the agent rules
+  (step 6).
+- **Configured language differs from the existing files:** offer to translate
+  them: everything, or only the open files (roadmap, debt, wishlist) leaving the
+  changelog history as it is. Titles, field labels and entries are translated;
+  **codes never change**. Only with the user's OK; if they decline, the files
+  keep their language.
 
-- `git mv` cuando un archivo entero mapea 1:1 a un destino (preserva historial);
-  si se parte en varios buckets, crea los destinos y `git rm` el viejo.
-- Aplica las cabeceras-plantilla de `spec.md`.
-- Asigna códigos `TD/RM/WL` correlativos desde 001, sin reutilizar (bandeja +
-  changelog). Si una entrada ya traía un código válido (caso `docs/tracking/`),
-  **consérvalo, no renumeres**.
-- Reconcilia formato: deuda con `Estado: Abierto`; changelog a
-  `## [CÓDIGO] Título (YYYY-MM-DD HH:MM)`. Para entradas históricas sin hora,
-  deja solo la fecha `(YYYY-MM-DD)`. **Nunca consultes git para fechas/horas.**
-- Respeta "archivos bajo demanda": no crees buckets vacíos. Si no se descubrió
-  nada, crea solo la carpeta `docs/logbook/` y explica que los archivos nacen
-  cuando haya algo real que poner.
-- Arregla punteros rotos (`README.md`, docs de visión) a rutas/nombres viejos.
+## 4. Propose a plan and confirm
 
-## 5. Instalar las reglas del agente
+Classification is fuzzy, so **don't move anything yet**. Show the user the
+plan: which file/section goes to which bucket, what stays conceptual, which
+codes would be assigned, the document language (and any translation), and
+which file the agent rules will go into (step 6). Let them correct it and
+migrate only after their OK. (Exception: the mechanical rename of
+`docs/tracking/` can be done directly, telling them.)
 
-Copia el bloque de `agent-rules.md` (marcas incluidas) al archivo de
-instrucciones que el agente lee en cada sesión. Va en **un solo archivo, nunca
-en dos**: Claude Code lee `CLAUDE.md` o `AGENTS.md`, no ambos, y duplicarlo
-hace que se lea dos veces o que una copia quede sin leer.
+## 5. Migrate
 
-**Antes de elegir:** si el bloque ya está en el archivo global del usuario
-(`~/.claude/CLAUDE.md` o el equivalente de su agente), las reglas ya valen en
-todos sus proyectos: no lo escribas en el proyecto y díselo.
+- `git mv` when a whole file maps 1:1 to a destination (keeps history); if it
+  splits into several buckets, create the destinations and `git rm` the old
+  one.
+- Apply the header templates from `spec.md`, in the document language.
+- Assign consecutive `TD/RM/WL` codes from 001, never reused (open file +
+  changelog). If an entry already had a valid code (`docs/tracking/` case),
+  **keep it, don't renumber**.
+- Reconcile format: debt with `Status: Open`; changelog as
+  `## [CODE] Title (YYYY-MM-DD HH:MM)`. For historical entries without a time,
+  keep only the date `(YYYY-MM-DD)`. **Never query git for dates/times.**
+- Respect "files on demand": don't create empty buckets. If nothing was
+  discovered, create only the `docs/logbook/` folder and explain that the files
+  are born when there is something real to put in them.
+- Fix broken pointers (`README.md`, vision docs) to old paths/names.
 
-**Destino en el proyecto**, la primera regla que se cumpla, mirando la raíz del
-repo:
+## 6. Install the agent rules
 
-1. Hay un `CLAUDE.md` que importa `@AGENTS.md` → `AGENTS.md`.
-2. Hay `CLAUDE.md` → `CLAUDE.md`.
-3. Hay solo `AGENTS.md` → `AGENTS.md` (así también lo leen otros agentes).
-4. No hay ninguno → crea `CLAUDE.md` con solo el bloque.
+Copy the block from `agent-rules.md` (markers included) into the instructions
+file the agent reads every session. It goes in **one file, never two**: Claude
+Code reads `CLAUDE.md` or `AGENTS.md`, not both, and duplicating it makes it
+load twice or leaves one copy unread.
 
-Si el usuario prefiere que las reglas valgan para todos sus proyectos, ofrécele
-el archivo global en vez del del proyecto.
+**Before choosing:** if the block is already in the user's global instructions
+file (`~/.claude/CLAUDE.md` or their agent's equivalent), the rules already
+apply to all their projects: don't write it into the project, and tell them. If
+this project needs a different document language than the global one, write
+only a `Logbook language: <language>` line in the project's instructions file.
 
-**Cómo escribirlo:**
+**Destination in the project**, the first rule that applies, looking at the
+repo root:
 
-- Si el destino ya tiene las marcas, reemplaza **todo** lo que hay desde la
-  línea que empieza por `<!-- logbook:start` hasta `<!-- logbook:end -->`,
-  ambas incluidas. Si no, agrégalo al final del archivo, separado por una línea
-  en blanco.
-- No toques nada fuera de las marcas.
-- Si encuentras una sección de logbook **sin marcas** (versión anterior, escrita
-  a mano), propón reemplazarla por el bloque; no la borres sin su OK.
-- Si el bloque aparece en otro archivo además del destino, avísalo y propón
-  quitar la copia sobrante.
+1. There's a `CLAUDE.md` that imports `@AGENTS.md` → `AGENTS.md`.
+2. There's a `CLAUDE.md` → `CLAUDE.md`.
+3. There's only an `AGENTS.md` → `AGENTS.md` (so other agents read it too).
+4. There's neither → create `CLAUDE.md` with just the block.
 
-## 6. Cierre
+If the user prefers the rules to apply to all their projects, offer the global
+file instead of the project's.
 
-- Resume qué se migró/renombró, códigos conservados o asignados, próximos
-  correlativos disponibles (`TD/RM/WL`), qué quedó como conceptual y en qué
-  archivo quedaron las reglas del agente.
-- No hagas commit salvo que el usuario lo pida (todo va por git → puede revisar
-  con `git diff` y revertir si algo no cuadra).
+**How to write it:**
+
+- Fill in the `Logbook language:` line with the document language. When
+  replacing an existing block, **keep the language it already had** unless the
+  user chose a new one.
+- If the destination already has the markers, replace **everything** from the
+  line starting with `<!-- logbook:start` through `<!-- logbook:end -->`, both
+  included. Otherwise, append it at the end of the file, separated by a blank
+  line.
+- Don't touch anything outside the markers.
+- If you find a logbook section **without markers** (older, hand-written
+  version), propose replacing it with the block; don't delete it without their
+  OK.
+- If the block appears in another file besides the destination, say so and
+  propose removing the extra copy.
+
+## 7. Wrap-up
+
+- Summarize what was migrated/renamed, codes kept or assigned, next available
+  numbers (`TD/RM/WL`), what stayed conceptual, the document language and which
+  file the agent rules ended up in.
+- Don't commit unless the user asks (everything goes through git → they can
+  review with `git diff` and revert if something is off).

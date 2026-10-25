@@ -1,173 +1,211 @@
-# Logbook — convención completa
+# Logbook — full convention
 
-Todo el trabajo del proyecto se registra en cuatro archivos dentro de
-`docs/logbook/`, **siempre versionados en git** (git es el respaldo de todo lo
-que se borra). `docs/` arriba queda para material conceptual (visión,
-definición del proyecto); el registro operativo vive bajo `docs/logbook/`.
+All project work is recorded in four files under `docs/logbook/`, **always
+versioned in git** (git is the backup for everything that gets deleted). `docs/`
+itself stays for conceptual material (vision, project definition); the
+operational record lives under `docs/logbook/`.
 
-| Archivo | Prefijo | Qué guarda |
+| File | Prefix | Holds |
 |---|---|---|
-| `technical-debt.md` | `TD-###` | Algo que está **mal ahora** en el código existente. |
-| `roadmap.md` | `RM-###` | Trabajo **comprometido**, se va a hacer. |
-| `wishlist.md` | `WL-###` | Ideas, **quizá nunca**. |
-| `changelog.md` | — | Registro **permanente** de todo lo terminado. |
+| `technical-debt.md` | `TD-###` | Something **wrong now** in existing code. |
+| `roadmap.md` | `RM-###` | **Committed** work that will be done. |
+| `wishlist.md` | `WL-###` | Ideas, **maybe never**. |
+| `changelog.md` | — | **Permanent** record of everything finished. |
 
-Carpeta preparada, archivos bajo demanda: cada archivo se crea (con su
-cabecera-plantilla de abajo) la primera vez que hay algo real que poner. No
-crees archivos vacíos ni otros distintos a estos cuatro.
+Folder ready, files on demand: each file is created (with its header template
+below) the first time there is something real to put in it. Don't create empty
+files, or any file other than these four.
 
-## Reglas de los códigos
+## Language
 
-- **Nunca se reutilizan.** El siguiente número de un prefijo = el mayor ya usado
-  +1, mirando **bandeja + changelog**. (Si un código se quemó por un error de
-  proceso y nunca representó una tarea real, sí puede reclamarse.)
-- El prefijo dice solo en qué archivo está la tarea (`RM-007` → `roadmap.md`).
+Two languages, kept apart:
 
-## Ciclo de una tarea
+- **Document language:** what the logbook files are written in. Configurable.
+- **Conversation language:** what you answer the user in (recommendations,
+  summaries, help). Always the language the user is speaking.
 
-El usuario pide trabajar por código: *"quiero trabajar en la RM-007…"*. Vale
-igual para `RM`, `TD` y `WL`: un `WL` **se ejecuta directo desde la wishlist**,
-sin promoverlo antes.
+The document language is set by a line `Logbook language: <language>` in the
+agent's instructions files. Resolve it in this order:
 
-1. **Al empezar:** marca la entrada como `En progreso (YYYY-MM-DD)` en su bandeja
-   (marcador WIP, por si se corta la sesión).
-2. **Al terminar:** mueve la entrada al **changelog conservando su propio
-   prefijo** (un `WL` terminado entra como `WL`, un `TD` como `TD`) y **bórrala**
-   de la bandeja. El changelog registra los tres tipos.
+1. A `Logbook language:` line in the project's `CLAUDE.md` / `AGENTS.md`.
+2. Otherwise, the line in the user's global instructions file.
+3. Otherwise, the language the existing logbook files are written in.
+4. Otherwise (new project, nothing configured): `init` asks; outside `init`,
+   use the conversation language.
 
-Ejecutar una tarea **no cambia su código**.
+**Never mix languages inside the logbook.** If the configured language and the
+existing files disagree, keep writing in the files' language and tell the user,
+once, that `init` can translate them.
 
-## Casos especiales
+Templates below are in English. When the document language is another one,
+translate the header and field labels when creating the file. When a file
+already exists, reuse the labels it already uses.
 
-- **Promoción `WL → RM`:** es una **decisión de prioridad**, no un paso para
-  ejecutar: el usuario decide que una idea pasa a ser trabajo comprometido,
-  aunque no se vaya a hacer ahora. Solo cuando él lo pide; nunca la propongas
-  como requisito para trabajar un `WL`. Borra el `WL`, crea un `RM` nuevo.
-  **No pasa por changelog** (no se terminó nada, solo se movió).
-- **Descartar (wontfix):** **borrado silencioso** de la bandeja. Git conserva el
-  historial; no se registra en changelog.
-- **Technical-debt unificado:** un `TD` resuelto **también** se mueve al changelog
-  y se borra. No se conserva `Estado: Resuelto` dentro del archivo.
+## Code rules
+
+- **Never reused.** The next number for a prefix = highest used +1, looking at
+  **the open file + the changelog**. (A code burned by a process mistake that
+  never represented a real task may be reclaimed.)
+- The prefix only says which file the task lives in (`RM-007` → `roadmap.md`).
+
+## Task lifecycle
+
+The user asks to work by code: *"let's work on RM-007…"*. It works the same
+for `RM`, `TD` and `WL`: a `WL` **is executed straight from the wishlist**,
+without promoting it first.
+
+1. **On start:** mark the entry `In progress (YYYY-MM-DD)` in its file (a WIP
+   marker, in case the session is cut short).
+2. **On finish:** move the entry to the changelog **keeping its own prefix** (a
+   finished `WL` goes in as `WL`, a `TD` as `TD`) and **delete it** from its
+   file. The changelog records all three types.
+
+Executing a task **doesn't change its code**.
+
+## Special cases
+
+- **Promoting `WL → RM`:** a **priority decision**, not a step to execute: the
+  user decides an idea becomes committed work, even if it won't be done now.
+  Only when the user asks; never propose it as a requirement to work on a `WL`.
+  Delete the `WL`, create a new `RM`. **It doesn't go through the changelog**
+  (nothing was finished, only moved).
+- **Discarding (wontfix):** **silent deletion** from its file. Git keeps the
+  history; nothing goes to the changelog.
+- **Unified technical debt:** a resolved `TD` **also** moves to the changelog
+  and is deleted. No `Status: Resolved` is kept inside the file.
+
+## Timestamps
+
+The changelog date and time are the local clock when the task is finished.
+**Never query git (or any other external source) for them:** the commit comes
+later, when the user makes it, so its time is not when the work ended.
 
 ---
 
-# Formatos y cabeceras
+# Formats and headers
 
 ## `technical-debt.md` (`TD-###`)
 
-Entrada:
+Entry:
 
 ```markdown
-## [TD-001] Título corto
-- **Ubicación:** `ruta/al/archivo.ext:línea`
-- **Riesgo:** N/10
-- **Problema:** Descripción sintetizada de qué está mal.
-- **Impacto futuro:** Qué problemas puede causar si no se atiende.
-- **Fecha:** YYYY-MM-DD · **Estado:** Abierto
+## [TD-001] Short title
+- **Location:** `path/to/file.ext:line`
+- **Risk:** N/10
+- **Problem:** Condensed description of what's wrong.
+- **Future impact:** What it can cause if left alone.
+- **Suggestion:** (optional) how to fix it, in one line.
+- **Date:** YYYY-MM-DD · **Status:** Open
 ```
 
-Escala de riesgo:
+Risk scale:
 
 ```
-1-3  cosmético / sin impacto funcional
-4-6  ralentiza el desarrollo o riesgo moderado
-7-9  bug latente, pérdida de datos o seguridad
- 10  crítico, atacar de inmediato
+1-3  cosmetic / no functional impact
+4-6  slows development down or moderate risk
+7-9  latent bug, data loss or security
+ 10  critical, tackle immediately
 ```
 
-Cabecera-plantilla (al crear el archivo):
+Header template (when creating the file):
 
 ```markdown
-# Deuda Técnica
+# Technical Debt
 
-Registro de atajos, decisiones pendientes y riesgos a futuro de este proyecto.
-Código `TD-###` (nunca se reutiliza). Al resolverse, la entrada se mueve al
-changelog y se borra de aquí.
+Shortcuts, pending decisions and future risks in this project.
+Code `TD-###` (never reused). Once resolved, the entry moves to the changelog
+and is deleted from here.
 
-**Formato de cada entrada:**
-- **Ubicación:** `archivo:línea` afectado.
-- **Riesgo:** del 1 al 10 (1-3 cosmético · 4-6 ralentiza/moderado · 7-9 bug latente o seguridad · 10 crítico).
-- **Problema:** qué está mal, sintetizado.
-- **Impacto futuro:** qué puede causar si no se atiende.
-- **Fecha** y **Estado** (Abierto / En progreso).
+**Entry format:**
+- **Location:** affected `file:line`.
+- **Risk:** 1 to 10 (1-3 cosmetic · 4-6 slows down/moderate · 7-9 latent bug or security · 10 critical).
+- **Problem:** what's wrong, condensed.
+- **Future impact:** what it can cause if left alone.
+- **Suggestion:** (optional) how to fix it, in one line. A hint for whoever picks it up, not a spec.
+- **Date** and **Status** (Open / In progress).
 
 ---
 ```
 
 ## `roadmap.md` (`RM-###`)
 
-Entrada (estructurada):
+Ordered by priority: the top entry is the next one to do. New entries go where
+their priority puts them, not at the end.
+
+Entry:
 
 ```markdown
-## [RM-001] Título corto
-- **Objetivo:** qué se quiere lograr.
-- **Hecho cuando:** criterio claro de finalización.
-- **Fecha:** YYYY-MM-DD · **Estado:** Abierto
+## [RM-001] Short title
+- **Goal:** what we want to achieve.
+- **Scope:** (optional) what's in and what's out.
+- **Open questions:** (optional) what must be decided when starting.
+- **Done when:** clear completion criterion.
+- **Date:** YYYY-MM-DD · **Status:** Open
 ```
 
-Cabecera-plantilla:
+Header template:
 
 ```markdown
 # Roadmap
 
-Trabajo comprometido: lo que sí se va a hacer. Código `RM-###` (nunca se reutiliza).
-Al terminar una tarea se mueve al changelog y se borra de aquí.
+Committed work: what will be done. Code `RM-###` (never reused).
+Ordered by priority, top first. When a task is finished it moves to the
+changelog and is deleted from here.
 
-**Formato de cada entrada:**
-- **Objetivo:** qué se quiere lograr.
-- **Hecho cuando:** criterio claro de finalización.
-- **Fecha** y **Estado** (Abierto / En progreso).
+**Entry format:**
+- **Goal:** what we want to achieve.
+- **Scope:** (optional) what's in and what's out.
+- **Open questions:** (optional) what must be decided when starting.
+- **Done when:** clear completion criterion.
+- **Date** and **Status** (Open / In progress).
 
 ---
 ```
 
 ## `wishlist.md` (`WL-###`)
 
-Entrada (liviana, sin campos):
+Entry (lightweight, no fields):
 
 ```markdown
-## [WL-001] Título corto
-Idea en 1–2 líneas.
+## [WL-001] Short title
+The idea in 1–2 lines.
 ```
 
-Cabecera-plantilla:
+Header template:
 
 ```markdown
 # Wishlist
 
-Ideas y mejoras posibles, sin compromiso (quizá nunca). Código `WL-###` (nunca se reutiliza).
-Si una idea se promueve, se borra de aquí y nace un `RM` nuevo.
+Possible ideas and improvements, no commitment (maybe never). Code `WL-###` (never reused).
+If an idea is promoted, it's deleted from here and a new `RM` is born.
 
-**Formato:** título + idea en 1–2 líneas, sin campos.
+**Format:** title + the idea in 1–2 lines, no fields.
 
 ---
 ```
 
 ## `changelog.md`
 
-Entrada (orden inverso, lo más nuevo arriba):
+Entry (reverse order, newest on top):
 
 ```markdown
-## [CÓDIGO] Título (YYYY-MM-DD HH:MM)
-Resumen en ≤2 líneas de lo que se hizo.
+## [CODE] Title (YYYY-MM-DD HH:MM)
+Summary in ≤2 lines of what was done.
 ```
 
-La fecha y hora son el momento en que se termina la tarea (reloj local de la
-sesión). **Nunca se consulta git ni otra fuente externa para obtenerlas.**
-
-Cabecera-plantilla:
+Header template:
 
 ~~~markdown
 # Changelog
 
-Registro permanente de todo el trabajo terminado. Indexado por código de tarea
-(`TD-`, `RM-`, `WL-`). Orden inverso: lo más nuevo arriba.
+Permanent record of all finished work. Indexed by task code
+(`TD-`, `RM-`, `WL-`). Reverse order: newest on top.
 
-**Formato de cada entrada:**
+**Entry format:**
 
 ```
-## [CÓDIGO] Título (YYYY-MM-DD HH:MM)
-Resumen en ≤2 líneas de lo que se hizo.
+## [CODE] Title (YYYY-MM-DD HH:MM)
+Summary in ≤2 lines of what was done.
 ```
 
 ---
