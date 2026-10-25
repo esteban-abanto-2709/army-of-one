@@ -3,5 +3,9 @@
   "description": "Keep a project on course: what was done, what's next, what's wrong",
   "author": {
     "name": "Esteban Abanto"
-  }
+  },
+  "homepage": "https://github.com/esteban-abanto-2709/army-of-one",
+  "repository": "https://github.com/esteban-abanto-2709/army-of-one",
+  "license": "MIT",
+  "keywords": ["logbook", "technical-debt", "roadmap", "changelog", "project-management"]
 }

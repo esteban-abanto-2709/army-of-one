@@ -25,12 +25,6 @@ changelog and is deleted from here.
 - **Done when:** a new session loads `project-kit:logbook` and no plain `logbook` skill.
 - **Date:** 2026-10-25 · **Status:** Open
 
-## [RM-003] README and LICENSE
-- **Goal:** the repo can be published.
-- **Scope:** MIT `LICENSE`; `README.md` with what the logbook is, who it's for (solo devs working with AI), install commands and the three subcommands.
-- **Done when:** `claude plugin validate --strict` passes except the intentional missing `version`, and a stranger can install it by reading only the README.
-- **Date:** 2026-10-25 · **Status:** Open
-
 ## [RM-004] Test the published skill with an agent
 - **Goal:** see how an agent that has never seen the skill reacts to it, after publishing.
 - **Scope:** a throwaway project; install from GitHub; an agent runs each case and reports. Cases:
