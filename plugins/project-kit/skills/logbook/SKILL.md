@@ -18,9 +18,10 @@ A lightweight, git-versioned project tracking convention that lives under
 The full convention (formats, code rules, task cycle, special cases) lives in
 `reference/spec.md`. The passive day-to-day rules (don't leave debt as code
 comments; record it in the logbook; move finished committed tasks to the
-changelog) live in the user's global `CLAUDE.md` and apply even without this
-skill — this skill is the source of truth for the heavier mechanics and the
-three on-demand commands.
+changelog) live in a marked block that `init` writes into the agent's
+instructions file (`CLAUDE.md` or `AGENTS.md`; see `reference/agent-rules.md`),
+so they apply in every session even without this skill loaded — this skill is
+the source of truth for the heavier mechanics and the three on-demand commands.
 
 ## How to run
 
