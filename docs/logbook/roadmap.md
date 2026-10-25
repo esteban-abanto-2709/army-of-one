@@ -19,12 +19,6 @@ changelog and is deleted from here.
 - **Done when:** `spec.md` has the decision rule and the three formats, and classifying the open TDs of a real project with it leaves no doubtful case.
 - **Date:** 2026-10-25 · **Status:** Open
 
-## [RM-002] Use the repo version of the skill
-- **Goal:** one copy of the skill, the one in this repo.
-- **Scope:** add this folder as a local marketplace, install `project-kit`, delete the old copy in `~/.claude/skills/logbook`. The command becomes `/project-kit:logbook`.
-- **Done when:** a new session loads `project-kit:logbook` and no plain `logbook` skill.
-- **Date:** 2026-10-25 · **Status:** Open
-
 ## [RM-004] Test the published skill with an agent
 - **Goal:** see how an agent that has never seen the skill reacts to it, after publishing.
 - **Scope:** a throwaway project; install from GitHub; an agent runs each case and reports. Cases:
