@@ -12,6 +12,9 @@ Summary in ≤2 lines of what was done.
 
 ---
 
+## [TD-007] init gaps found translating a real logbook (2026-10-25 16:51)
+The block now always goes into the project and the user's global file never changes that and is never edited; `init` gains a translation procedure (what stays literal, header, verification), skips set-up steps when the logbook exists, and `spec.md` settles which labels to use.
+
 ## [RM-002] Use the repo version of the skill (2026-10-25 16:28)
 This folder is a local marketplace and `project-kit` is installed from it; edits to the repo load in place, no reinstall. The old copy in `~/.claude/skills/logbook` is gone.
 

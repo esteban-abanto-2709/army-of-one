@@ -2,8 +2,8 @@
 
 The day-to-day rules (recording debt, task lifecycle, codes) must apply in
 **every** session, even when the skill isn't loaded. That's why `init` copies
-this block into the instructions file the agent always reads (see `init.md`,
-step 6).
+this block into the project's instructions file, which the agent always reads
+and which travels with the repo (see `init.md`, step 6).
 
 Copy it **as is**, markers included, filling in `<language>` with the document
 language. Everything between `<!-- logbook:start` and `<!-- logbook:end -->`
@@ -30,9 +30,9 @@ definition); the operational record lives under `docs/logbook/`.
 **Passive rules (always on, no command):**
 
 - **Language:** logbook entries are written in the logbook language above; the
-  conversation stays in the user's language. If the existing files are in
-  another language, keep theirs (never mix) and mention that `init` can
-  translate them.
+  conversation stays in the user's language. Code, product text and quotes stay
+  literal. If the existing files are in another language, keep theirs (never
+  mix) and mention that `init` can translate them.
 - **Technical debt:** if you notice it while working, record it in
   `technical-debt.md` (never as a code comment). Entry format:
 

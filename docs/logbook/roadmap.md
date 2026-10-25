@@ -25,8 +25,8 @@ changelog and is deleted from here.
   - `init` on an empty project: asks the language, creates only `docs/logbook/`, writes the block into a new `CLAUDE.md`.
   - `init` with only `AGENTS.md`, with `CLAUDE.md` importing `@AGENTS.md`, and with both: the block lands in the right file, once.
   - `init` run twice: no duplicate block, the language line is kept.
-  - Block already in the global file: `init` doesn't write it into the project.
-  - Configured English with Spanish files: keeps writing Spanish, offers translation; translating keeps every code.
+  - Block also in the global file: `init` still writes it into the project, mentions the duplicate and doesn't edit the global file.
+  - Configured English with Spanish files: keeps writing Spanish, offers translation; translating keeps every code, date and literal product text. (Passed on a real project before the TD-007 fixes.)
   - Passive rules in a fresh session without invoking the skill: debt noticed goes to `technical-debt.md`, not a code comment; starting a task marks `In progress`; finishing moves it to the changelog with the local time.
   - `next`: one recommendation + two alternatives, in the conversation language, no emojis, offers to mark it in progress.
   - `audit`: confirms before writing, doesn't repeat debt already resolved in the changelog.

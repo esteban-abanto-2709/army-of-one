@@ -35,11 +35,14 @@ agent's instructions files. Resolve it in this order:
 
 **Never mix languages inside the logbook.** If the configured language and the
 existing files disagree, keep writing in the files' language and tell the user,
-once, that `init` can translate them.
+once, that `init` can translate them. Text kept as is because it is literal
+(code, product text, quotes; see "Translating" in `init.md`) isn't mixing.
 
-Templates below are in English. When the document language is another one,
-translate the header and field labels when creating the file. When a file
-already exists, reuse the labels it already uses.
+Templates below are in English. Which labels to use:
+
+- **Creating a file:** the template, in the document language.
+- **Adding to an existing file:** the labels the file already uses.
+- **Translating a file** (`init`): the template in the new language.
 
 ## Code rules
 

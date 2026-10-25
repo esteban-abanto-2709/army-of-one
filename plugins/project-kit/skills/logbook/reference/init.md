@@ -9,6 +9,10 @@ already in `docs/logbook/` and up to date, don't break anything.
 First: is it a git repo? If not, say so (offer `git init`) — the backup for
 everything that gets deleted depends on git.
 
+**Already set up?** If `docs/logbook/` already exists in this format, step 1 is
+only a quick check for new loose tracking files. If there are none, steps 2 and
+5 have nothing to do: say so and go on with steps 3, 4 and 6.
+
 ## 1. Discover candidates
 
 Sweep the repo (skipping `node_modules`, `dist`, `.next`, build) for documents
@@ -53,9 +57,25 @@ Resolve the document language as `spec.md` says.
   (step 6).
 - **Configured language differs from the existing files:** offer to translate
   them: everything, or only the open files (roadmap, debt, wishlist) leaving the
-  changelog history as it is. Titles, field labels and entries are translated;
-  **codes never change**. Only with the user's OK; if they decline, the files
-  keep their language.
+  changelog history as it is. Only with the user's OK; if they decline, the
+  files keep their language.
+
+**Translating:**
+
+- **Translate:** titles, field labels (the template's and any custom ones an
+  entry uses, like `Rule` or `Steps`) and entry text.
+- **Keep as is:** codes; dates and times; links; anything in backticks; text
+  that names something in the product as it appears there (UI strings, screen
+  names, data such as item names, proposed UI copy); quotes from people.
+- **Header** (everything before the first entry): replace it with the template
+  in the new language. Keep a project's own note (e.g. a link to a vision doc)
+  only for what the template doesn't already say.
+- **Odd structure** (a stray separator, an unusual section): leave it as it is
+  and mention it.
+- **Verify after writing**, comparing against the files before translating:
+  per file, the same codes in the same order; the same dates and times; each
+  code mentioned in the text the same number of times; no file outside
+  `docs/logbook/` changed. Report the result.
 
 ## 4. Propose a plan and confirm
 
@@ -85,16 +105,18 @@ migrate only after their OK. (Exception: the mechanical rename of
 
 ## 6. Install the agent rules
 
-Copy the block from `agent-rules.md` (markers included) into the instructions
-file the agent reads every session. It goes in **one file, never two**: Claude
-Code reads `CLAUDE.md` or `AGENTS.md`, not both, and duplicating it makes it
-load twice or leaves one copy unread.
+Copy the block from `agent-rules.md` (markers included) into the project's
+instructions file. **Always the project:** the block travels with the repo, so
+the rules hold for collaborators, other machines, cloud sessions and other
+agents. In the project it goes in **one file, never two**: Claude Code reads
+`CLAUDE.md` or `AGENTS.md`, not both, and duplicating it makes it load twice or
+leaves one copy unread.
 
-**Before choosing:** if the block is already in the user's global instructions
-file (`~/.claude/CLAUDE.md` or their agent's equivalent), the rules already
-apply to all their projects: don't write it into the project, and tell them. If
-this project needs a different document language than the global one, write
-only a `Logbook language: <language>` line in the project's instructions file.
+**The user's global instructions file** (`~/.claude/CLAUDE.md` or their agent's
+equivalent) is theirs: it doesn't change where the block goes, and you never
+edit it unless they explicitly ask. If it also contains the block, still write the project's
+and mention the duplicate once; keeping or removing the global copy is their
+call. When both have a `Logbook language:` line, the project's wins.
 
 **Destination in the project**, the first rule that applies, looking at the
 repo root:
@@ -103,9 +125,6 @@ repo root:
 2. There's a `CLAUDE.md` → `CLAUDE.md`.
 3. There's only an `AGENTS.md` → `AGENTS.md` (so other agents read it too).
 4. There's neither → create `CLAUDE.md` with just the block.
-
-If the user prefers the rules to apply to all their projects, offer the global
-file instead of the project's.
 
 **How to write it:**
 
