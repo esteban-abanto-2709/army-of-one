@@ -1,0 +1,14 @@
+{
+  "name": "army-of-one",
+  "description": "Skills for developers who build projects on their own with AI",
+  "owner": {
+    "name": "Esteban Abanto"
+  },
+  "plugins": [
+    {
+      "name": "project-kit",
+      "source": "./plugins/project-kit",
+      "description": "Keep a project on course: what was done, what's next, what's wrong"
+    }
+  ]
+}
