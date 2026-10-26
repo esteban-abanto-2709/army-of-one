@@ -69,7 +69,8 @@ Resolve the document language as `spec.md` says.
   names, data such as item names, proposed UI copy); quotes from people.
 - **Header** (everything before the first entry): replace it with the template
   in the new language. Keep a project's own note (e.g. a link to a vision doc)
-  only for what the template doesn't already say.
+  only for what the template doesn't already say, placed after the template's
+  `---`.
 - **Odd structure** (a stray separator, an unusual section): leave it as it is
   and mention it.
 - **Verify after writing**, comparing against the files before translating:
@@ -138,7 +139,8 @@ repo root:
 - Don't touch anything outside the markers.
 - If you find a logbook section **without markers** (older, hand-written
   version), propose replacing it with the block; don't delete it without their
-  OK.
+  OK. A single loose line that repeats a logbook rule counts too: propose
+  removing it.
 - If the block appears in another file besides the destination, say so and
   propose removing the extra copy.
 
@@ -148,4 +150,5 @@ repo root:
   numbers (`TD/RM/WL`), what stayed conceptual, the document language and which
   file the agent rules ended up in.
 - Don't commit unless the user asks (everything goes through git → they can
-  review with `git diff` and revert if something is off).
+  review with `git diff` and revert if something is off). Everything `init`
+  did in one run (migration, translation, agent rules) is one commit.

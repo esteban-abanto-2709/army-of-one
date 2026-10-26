@@ -12,6 +12,9 @@ Summary in ≤2 lines of what was done.
 
 ---
 
+## [TD-008] init still left three small cases to guesswork (2026-10-25 19:26)
+`init.md` now says a loose line repeating a logbook rule counts as an unmarked section, a project's own header note goes after the template's `---`, and one `init` run is one commit.
+
 ## [TD-007] init gaps found translating a real logbook (2026-10-25 16:51)
 The block now always goes into the project and the user's global file never changes that and is never edited; `init` gains a translation procedure (what stays literal, header, verification), skips set-up steps when the logbook exists, and `spec.md` settles which labels to use.
 
