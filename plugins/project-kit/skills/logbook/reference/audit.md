@@ -8,7 +8,8 @@ Goal: review the code for debt and fill `technical-debt.md`. It's a
 - Read `docs/logbook/technical-debt.md` (open debt) and
   `docs/logbook/changelog.md` (resolved debt, `TD` prefix). This avoids
   **duplicates** and reporting what's already fixed, and gives you the next
-  available `TD-###` code (highest used +1 across the open file + changelog).
+  available `TD-###` code (highest `TD` code +1 across the open file +
+  changelog; `RM` and `WL` codes don't count).
 
 ## 2. Scan
 

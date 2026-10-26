@@ -93,8 +93,8 @@ migrate only after their OK. (Exception: the mechanical rename of
   splits into several buckets, create the destinations and `git rm` the old
   one.
 - Apply the header templates from `spec.md`, in the document language.
-- Assign consecutive `TD/RM/WL` codes from 001, never reused (open file +
-  changelog). If an entry already had a valid code (`docs/tracking/` case),
+- Assign codes with one counter per prefix (`TD-001`, `RM-001`, `WL-001`…),
+  never reused, as `spec.md` says. If an entry already had a valid code (`docs/tracking/` case),
   **keep it, don't renumber**.
 - Reconcile format: debt with `Status: Open`; changelog as
   `## [CODE] Title (YYYY-MM-DD HH:MM)`. For historical entries without a time,

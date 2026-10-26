@@ -51,8 +51,9 @@ definition); the operational record lives under `docs/logbook/`.
   format (reverse order): `## [CODE] Title (YYYY-MM-DD HH:MM)` + summary in ≤2
   lines. **The date/time is the local clock at finish; never query git for
   it.**
-- **Codes:** never reused; the next one = highest used +1 looking at the open
-  file + changelog. Executing a task doesn't change its code: a `WL` is worked
+- **Codes:** one counter per prefix, starting at `001`; the next one = highest
+  code with the **same prefix** +1, looking at its open file + changelog (other
+  prefixes don't count). Never reused. Executing a task doesn't change its code: a `WL` is worked
   on directly and goes into the changelog as `WL`. Promoting `WL → RM` is only
   a priority decision the user asks for, never a prior step.
 - **Files on demand:** don't create empty files; each one is born the first

@@ -46,9 +46,14 @@ Templates below are in English. Which labels to use:
 
 ## Code rules
 
-- **Never reused.** The next number for a prefix = highest used +1, looking at
-  **the open file + the changelog**. (A code burned by a process mistake that
-  never represented a real task may be reclaimed.)
+- **One counter per prefix.** `TD`, `RM` and `WL` each count on their own,
+  starting at `001`: the first debt is `TD-001` even if `RM-005` exists. The
+  next number for a prefix = highest code **with that same prefix** +1, looking
+  at its open file + the changelog; codes with other prefixes don't count.
+  (Older logbooks that used one shared counter keep their codes; they simply
+  continue from each prefix's highest.)
+- **Never reused.** (A code burned by a process mistake that never represented
+  a real task may be reclaimed.)
 - The prefix only says which file the task lives in (`RM-007` → `roadmap.md`).
 
 ## Task lifecycle

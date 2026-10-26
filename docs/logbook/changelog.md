@@ -12,6 +12,9 @@ Summary in ≤2 lines of what was done.
 
 ---
 
+## [TD-010] Codes counted across prefixes (2026-10-25 22:21)
+The numbering rule now says one counter per prefix, starting at `001`, in `spec.md`, the agent block, `init` and `audit`; existing codes are not renumbered.
+
 ## [RM-004] Test the published skill with an agent (2026-10-25 19:38)
 Installed from GitHub and run by a fresh session on a third-party repo plus three sandboxes: help, `init` (twice), `audit`, `next`, lifecycle and every block destination passed, with Spanish templates. Gaps found are in TD-009.
 
