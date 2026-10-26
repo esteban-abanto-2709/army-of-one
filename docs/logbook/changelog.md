@@ -12,6 +12,9 @@ Summary in ≤2 lines of what was done.
 
 ---
 
+## [RM-004] Test the published skill with an agent (2026-10-25 19:38)
+Installed from GitHub and run by a fresh session on a third-party repo plus three sandboxes: help, `init` (twice), `audit`, `next`, lifecycle and every block destination passed, with Spanish templates. Gaps found are in TD-009.
+
 ## [TD-008] init still left three small cases to guesswork (2026-10-25 19:26)
 `init.md` now says a loose line repeating a logbook rule counts as an unmarked section, a project's own header note goes after the template's `---`, and one `init` run is one commit.
 
